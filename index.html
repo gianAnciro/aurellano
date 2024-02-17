@@ -1,67 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Note-Taking Website</title>
+  <title>A static website</title>
+
+  <!-- include the widget -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-    <h1>Simple Note-Taking Website</h1>
+  <!-- Add a menu:
+   Log in / Sign up - when the user is not logged in
+   Username / Log out - when the user is logged in
+  -->
+  <div data-netlify-identity-menu></div>
 
-    <form id="noteForm" netlify>
-        <label for="note">Enter your note:</label><br>
-        <textarea id="note" name="note" rows="4" cols="50"></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
+  <!-- Add a simpler button:
+    Simple button that will open the modal.
+  -->
+  <div data-netlify-identity-button>Login with Netlify Identity</div>
 
-    <hr>
 
-    <h2>Notes:</h2>
-    <ul id="noteList"></ul>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchNotes();
 
-            document.getElementById('noteForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the form from submitting normally
-                const formData = new FormData(event.target); // Get form data
-
-                // Send form data to Netlify forms
-                fetch('/', {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Form submission successful');
-                        fetchNotes(); // Refresh notes list
-                    } else {
-                        console.error('Form submission failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
-
-            function fetchNotes() {
-                fetch('/.netlify/forms/simple-form-name/submissions')
-                    .then(response => response.json())
-                    .then(data => {
-                        const noteList = document.getElementById('noteList');
-                        noteList.innerHTML = ''; // Clear previous notes
-                        data.forEach(entry => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = entry.data.note;
-                            noteList.appendChild(listItem);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching notes:', error);
-                    });
-            }
-        });
-    </script>
+    hello
 </body>
 </html>
