@@ -20,17 +20,48 @@
     <ul id="noteList"></ul>
 
     <script>
-        // Fetch notes from Netlify form submissions
-        fetch('/.netlify/functions/submissions')
-            .then(response => response.json())
-            .then(data => {
-                const noteList = document.getElementById('noteList');
-                data.forEach(entry => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = entry.data.note;
-                    noteList.appendChild(listItem);
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchNotes();
+
+            document.getElementById('noteForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                const formData = new FormData(event.target); // Get form data
+
+                // Send form data to Netlify forms
+                fetch('/', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Form submission successful');
+                        fetchNotes(); // Refresh notes list
+                    } else {
+                        console.error('Form submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
             });
+
+            function fetchNotes() {
+                fetch('/.netlify/functions/submissions')
+                    .then(response => response.json())
+                    .then(data => {
+                        const noteList = document.getElementById('noteList');
+                        noteList.innerHTML = ''; // Clear previous notes
+                        data.forEach(entry => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = entry.data.note;
+                            noteList.appendChild(listItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching notes:', error);
+                    });
+            }
+        });
     </script>
 </body>
 </html>
