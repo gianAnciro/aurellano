@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Note-Taking Website</title>
+</head>
+<body>
+    <h1>Simple Note-Taking Website</h1>
+
+    <form id="noteForm" netlify>
+        <label for="note">Enter your note:</label><br>
+        <textarea id="note" name="note" rows="4" cols="50"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    <h2>Notes:</h2>
+    <ul id="noteList"></ul>
+
+    <script>
+        // Fetch notes from Netlify form submissions
+        fetch('/.netlify/functions/submissions')
+            .then(response => response.json())
+            .then(data => {
+                const noteList = document.getElementById('noteList');
+                data.forEach(entry => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = entry.data.note;
+                    noteList.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>
