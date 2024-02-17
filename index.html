@@ -46,7 +46,7 @@
             });
 
             function fetchNotes() {
-                fetch('/.netlify/functions/submissions')
+                fetch('/.netlify/forms/simple-form-name/submissions')
                     .then(response => response.json())
                     .then(data => {
                         const noteList = document.getElementById('noteList');
