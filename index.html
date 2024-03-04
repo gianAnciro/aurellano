@@ -15,30 +15,8 @@
       margin-top: 50px;
     }
   </style>
-
-
-<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-
-  
 </head>
 <body>
-
-
-
-<div data-netlify-identity-menu></div>
-
-  <!-- Add a simpler button:
-    Simple button that will open the modal.
-  -->
-  <div data-netlify-identity-button>Login with Netlify Identity</div>
-
-
-
-
-
-
-  
   <div class="container">
     <div class="jumbotron">
       <h1 class="display-4">Volunteer Management System</h1>
@@ -55,8 +33,12 @@
         <li>Offering training and webinars to improve volunteer skills and contribute successfully to community development</li>
       </ul>
       <hr class="my-4">
-      <p>Ready to make a difference? Sign up now!</p>
-      <a class="btn btn-primary btn-lg" href="#" role="button">Register as a Volunteer</a>
+      <p>Ready to make a difference?</p>
+      <div id="netlify-forms">
+        <!-- Placeholder for Netlify forms -->
+        <div data-netlify-identity-button="login"></div>
+        <div data-netlify-identity-button="signup"></div>
+      </div>
     </div>
   </div>
 
@@ -64,5 +46,22 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <!-- Netlify Identity Script -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/dashboard.html";
+          });
+          window.netlifyIdentity.on("signup", () => {
+            document.location.href = "/dashboard.html";
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>
